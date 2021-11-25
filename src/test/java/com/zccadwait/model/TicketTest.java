@@ -5,6 +5,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TicketTest {
+
+    @Test
+    public void testEmpty(){
+        Ticket ticket = Ticket.parseTicket("{\"error\":\"RecordNotFound\",\"description\":\"Not found\"}");
+        assertNull(ticket);
+    }
+
     @Test
     public void testDefault(){
         Ticket ticket = Ticket.parseTicket(

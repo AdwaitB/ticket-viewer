@@ -25,3 +25,5 @@ https://<domain>.zendesk.com/api/v2/tickets
 
 1. ```./gradlew test --tests "com.zccadwait.connection.ConnectionTest"```
 2. ```./gradlew test --tests "com.zccadwait.credentials.EndpointReaderTest"```
+3. ```./gradlew test --tests "com.zccadwait.model.TicketListTest"```
+4. ```./gradlew test --tests "com.zccadwait.model.TicketTest"```

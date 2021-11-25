@@ -2,6 +2,8 @@
 
 ## Instructions
 
+### How to run the application
+
 1. Clone this repository. This requires Java JDK to be installed.
 2. Now add your api along with username and password to ```src/main/resources/credentials.properties```.
    1. The first line must contain the API.
@@ -16,3 +18,10 @@ https://<domain>.zendesk.com/api/v2/tickets
 3. Open a terminal in the cloned folder where the gradle wrapper script (```gradlew```) is located.
 4. Run ```./gradlew clean build run``` for MacOS and linux and ```./gradlew.bat clean build run``` on Windows.
 5. The application should start and just follow on-screen instructions.
+
+### How to run the tests
+
+#### Unit tests
+
+1. ```./gradlew test --tests "com.zccadwait.connection.ConnectionTest"```
+2. ```./gradlew test --tests "com.zccadwait.credentials.EndpointReaderTest"```

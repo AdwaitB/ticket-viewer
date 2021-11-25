@@ -1,9 +1,8 @@
 package com.zccadwait.console;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Console {
@@ -31,9 +30,26 @@ public class Console {
     }
 
     public static void main(String[] args){
+        Logger.getGlobal().setLevel(Level.SEVERE);
+
         LOGGER.info("Starting console.");
-        System.out.println("Welcome to Zendesk Ticket Reader.");
+        System.out.println("Welcome to Adwait's Zendesk Ticket Reader.");
         printHelp();
+
+        runConsole();
+
+        System.out.println("Thanks for using Adwait's Zendesk Ticket Reader.");
+    }
+
+    private static void runConsole(){
+        String command = "help";
+
+        Scanner scanner = new Scanner(System.in);
+
+        while(!"quit".equals(command)){
+            System.out.println(command);
+            command = scanner.nextLine();
+        }
     }
 
     private static void printHelp(){

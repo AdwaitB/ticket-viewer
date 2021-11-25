@@ -199,67 +199,67 @@ class Ticket{
         this.group_id = group_id;
     }
 
-    public List<Object> getCollaborator_ids() {
+    public List<Object> getCollaboratorIds() {
         return collaborator_ids;
     }
 
-    public void setCollaborator_ids(List<Object> collaborator_ids) {
+    public void setCollaboratorIds(List<Object> collaborator_ids) {
         this.collaborator_ids = collaborator_ids;
     }
 
-    public List<Object> getFollower_ids() {
+    public List<Object> getFollowerIds() {
         return follower_ids;
     }
 
-    public void setFollower_ids(List<Object> follower_ids) {
+    public void setFollowerIds(List<Object> follower_ids) {
         this.follower_ids = follower_ids;
     }
 
-    public List<Object> getEmail_cc_ids() {
+    public List<Object> getEmailCcIds() {
         return email_cc_ids;
     }
 
-    public void setEmail_cc_ids(List<Object> email_cc_ids) {
+    public void setEmailCcIds(List<Object> email_cc_ids) {
         this.email_cc_ids = email_cc_ids;
     }
 
-    public Object getForum_topic_id() {
+    public Object getForumTopicId() {
         return forum_topic_id;
     }
 
-    public void setForum_topic_id(Object forum_topic_id) {
+    public void setForumTopicId(Object forum_topic_id) {
         this.forum_topic_id = forum_topic_id;
     }
 
-    public Object getProblem_id() {
+    public Object getProblemId() {
         return problem_id;
     }
 
-    public void setProblem_id(Object problem_id) {
+    public void setProblemId(Object problem_id) {
         this.problem_id = problem_id;
     }
 
-    public boolean isHas_incidents() {
+    public boolean isHasIncidents() {
         return has_incidents;
     }
 
-    public void setHas_incidents(boolean has_incidents) {
+    public void setHasIncidents(boolean has_incidents) {
         this.has_incidents = has_incidents;
     }
 
-    public boolean isIs_public() {
+    public boolean isPublic() {
         return is_public;
     }
 
-    public void setIs_public(boolean is_public) {
+    public void setIsPublic(boolean is_public) {
         this.is_public = is_public;
     }
 
-    public Object getDue_at() {
+    public Object getDueAt() {
         return due_at;
     }
 
-    public void setDue_at(Object due_at) {
+    public void setDueAt(Object due_at) {
         this.due_at = due_at;
     }
 
@@ -271,27 +271,27 @@ class Ticket{
         this.tags = tags;
     }
 
-    public List<Object> getCustom_fields() {
+    public List<Object> getCustomFields() {
         return custom_fields;
     }
 
-    public void setCustom_fields(List<Object> custom_fields) {
+    public void setCustomFields(List<Object> custom_fields) {
         this.custom_fields = custom_fields;
     }
 
-    public Object getSatisfaction_rating() {
+    public Object getSatisfactionRating() {
         return satisfaction_rating;
     }
 
-    public void setSatisfaction_rating(Object satisfaction_rating) {
+    public void setSatisfactionRating(Object satisfaction_rating) {
         this.satisfaction_rating = satisfaction_rating;
     }
 
-    public List<Object> getSharing_agreement_ids() {
+    public List<Object> getSharingAgreementIds() {
         return sharing_agreement_ids;
     }
 
-    public void setSharing_agreement_ids(List<Object> sharing_agreement_ids) {
+    public void setSharingAgreementIds(List<Object> sharing_agreement_ids) {
         this.sharing_agreement_ids = sharing_agreement_ids;
     }
 
@@ -303,11 +303,11 @@ class Ticket{
         this.fields = fields;
     }
 
-    public List<Object> getFollowup_ids() {
+    public List<Object> getFollowupIds() {
         return followup_ids;
     }
 
-    public void setFollowup_ids(List<Object> followup_ids) {
+    public void setFollowupIds(List<Object> followup_ids) {
         this.followup_ids = followup_ids;
     }
 
@@ -315,31 +315,31 @@ class Ticket{
         return ticket_form_id;
     }
 
-    public void setTicket_form_id(long ticket_form_id) {
+    public void setTicketFormId(long ticket_form_id) {
         this.ticket_form_id = ticket_form_id;
     }
 
-    public long getBrand_id() {
+    public long getBrandId() {
         return brand_id;
     }
 
-    public void setBrand_id(long brand_id) {
+    public void setBrandId(long brand_id) {
         this.brand_id = brand_id;
     }
 
-    public boolean isAllow_channelback() {
+    public boolean isAllowChannelback() {
         return allow_channelback;
     }
 
-    public void setAllow_channelback(boolean allow_channelback) {
+    public void setAllowChannelback(boolean allow_channelback) {
         this.allow_channelback = allow_channelback;
     }
 
-    public boolean isAllow_attachments() {
+    public boolean isAllowAttachments() {
         return allow_attachments;
     }
 
-    public void setAllow_attachments(boolean allow_attachments) {
+    public void setAllowAttachments(boolean allow_attachments) {
         this.allow_attachments = allow_attachments;
     }
 }

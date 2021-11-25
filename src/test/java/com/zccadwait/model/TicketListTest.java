@@ -69,7 +69,7 @@ public class TicketListTest {
         assertNotNull(ticketList);
         assertEquals(ticketList.getTickets().size(), 1);
         assertEquals(ticketList.getTickets().get(0).getId(), 1);
-        assertNull(ticketList.getNext_page());
-        assertNull(ticketList.getNext_page());
+        assertNull(ticketList.getNextPage());
+        assertNull(ticketList.getNextPage());
     }
 }

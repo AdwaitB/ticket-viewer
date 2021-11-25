@@ -67,7 +67,7 @@ public class TicketTest {
         assertEquals(ticket.getType(), "incident");
         assertEquals(ticket.getSubject(), "Sample ticket: Meet the ticket");
         assertEquals(ticket.getCreatedAt().toString(), "Wed Nov 24 18:46:29 EST 2021");
-        assertFalse(ticket.isHas_incidents());
+        assertFalse(ticket.isHasIncidents());
         assertEquals(ticket.getTags().size(), 3);
         assertEquals(ticket.getTicketFormId(), 360003551111L);
     }

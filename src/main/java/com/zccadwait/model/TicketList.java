@@ -26,19 +26,19 @@ public class TicketList {
         this.tickets = tickets;
     }
 
-    public String getNext_page() {
+    public String getNextPage() {
         return next_page;
     }
 
-    public void setNext_page(String next_page) {
+    public void setNextPage(String next_page) {
         this.next_page = next_page;
     }
 
-    public String getPrevious_page() {
+    public String getPreviousPage() {
         return previous_page;
     }
 
-    public void setPrevious_page(String previous_page) {
+    public void setPreviousPage(String previous_page) {
         this.previous_page = previous_page;
     }
 

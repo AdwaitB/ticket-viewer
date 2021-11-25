@@ -13,9 +13,9 @@ public class Console {
 
     private static final HashMap<String, Command> commandsMap;
 
-    private static final Integer rowSize = 85;
-    private static final String formatString = "| %10s | %40s | %25s |";
-    private static final String divider = "-".repeat(rowSize);
+    private static final Integer ROW_SIZE = 85;
+    private static final String FORMAT_STRING = "| %10s | %40s | %25s |";
+    private static final String DIVIDER = "-".repeat(ROW_SIZE);
 
     private static final String CREDENTIALS_HELPER_FILE = "src/main/resources/credentials.properties";
 
@@ -39,18 +39,14 @@ public class Console {
 
         LOGGER.info("Starting console.");
         System.out.println("Welcome to Adwait's Zendesk Ticket Reader.");
-        printHelp();
-
-        EndpointReader endpointReader = readDefaultEndpoint();
-        // runConsole();
-
-        Connection connection = new Connection(endpointReader.getUrl());
-        System.out.println(connection.executeGet(endpointReader.getUsername(), endpointReader.getPassword()));
+        runConsole();
         System.out.println("Thanks for using Adwait's Zendesk Ticket Reader.");
     }
 
-    private static EndpointReader readDefaultEndpoint(){
-        return new EndpointReader(CREDENTIALS_HELPER_FILE);
+    private static String readDefaultEndpoint(){
+        EndpointReader endpointReader = new EndpointReader(CREDENTIALS_HELPER_FILE);
+        Connection connection = new Connection(endpointReader.getUrl());
+        return connection.executeGet(endpointReader.getUsername(), endpointReader.getPassword());
     }
 
     private static void runConsole(){
@@ -66,11 +62,11 @@ public class Console {
 
     private static void printHelp(){
         System.out.println("Available Commands.");
-        System.out.println(divider);
-        System.out.printf((formatString) + "%n", "Command", "Description", "Usage");
-        System.out.println(divider);
+        System.out.println(DIVIDER);
+        System.out.printf((FORMAT_STRING) + "%n", "Command", "Description", "Usage");
+        System.out.println(DIVIDER);
         for(Command supportedCommand : commandsMap.values())
-            System.out.println(supportedCommand.getHelpDoc(formatString));
-        System.out.println(divider);
+            System.out.println(supportedCommand.getHelpDoc(FORMAT_STRING));
+        System.out.println(DIVIDER);
     }
 }

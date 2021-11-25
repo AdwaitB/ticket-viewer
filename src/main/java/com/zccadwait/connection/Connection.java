@@ -7,7 +7,7 @@ import java.util.Base64;
 import java.util.Scanner;
 
 public class Connection {
-    URL url;
+    private URL url;
 
     public Connection(String httpsURL){
         try {

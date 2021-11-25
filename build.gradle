@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-mainClassName = 'com.zccadwait.Console'
+mainClassName = 'com.zccadwait.console.Console'
 
 group 'org.zccadwait'
 version '1.0-SNAPSHOT'

@@ -30,7 +30,7 @@ public class Console {
     }
 
     public static void main(String[] args){
-        Logger.getGlobal().setLevel(Level.SEVERE);
+        LOGGER.setLevel(Level.SEVERE);
 
         LOGGER.info("Starting console.");
         System.out.println("Welcome to Adwait's Zendesk Ticket Reader.");

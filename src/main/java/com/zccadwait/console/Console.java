@@ -7,11 +7,15 @@ import com.zccadwait.model.Ticket;
 import com.zccadwait.model.TicketList;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class is the main entry point for the console.
+ *
+ * @author Adwait Bauskar
+ */
 public class Console {
     private static final Logger LOGGER = Logger.getLogger(Console.class.getName());
 

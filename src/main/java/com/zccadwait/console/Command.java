@@ -1,5 +1,11 @@
 package com.zccadwait.console;
 
+/**
+ * Stores a command class to add details for every command.
+ * The extension to this class will also store the actions it will perform.
+ *
+ * @author Adwait Bauskar
+ */
 public class Command {
     private final String command;
     private final String docString;

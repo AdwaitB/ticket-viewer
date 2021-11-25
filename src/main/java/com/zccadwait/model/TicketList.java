@@ -5,6 +5,11 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
+/**
+ * Tracks the ticket list class for the endpoint with no id provided.
+ *
+ * @author Adwait Bauskar
+ */
 public class TicketList {
     private static final GsonBuilder builder = new GsonBuilder();
     private static final Gson gson = builder.create();

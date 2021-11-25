@@ -8,6 +8,11 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Reads an endpoint from the file along with the credentials.
+ *
+ * @author Adwait Bauskar
+ */
 public class EndpointReader {
     private static final Logger LOGGER = Logger.getLogger(EndpointReader.class.getName());
 

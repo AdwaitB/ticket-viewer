@@ -5,6 +5,12 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Factory for connections.
+ * It maintains a map of every api endpoint to URL object. This is aimed at making the connections persistent in the future.
+ *
+ * @author Adwait Bauskar
+ */
 public class ConnectionManager {
     private static final Logger LOGGER = Logger.getLogger(ConnectionManager.class.getName());
 

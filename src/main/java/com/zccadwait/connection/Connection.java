@@ -9,6 +9,12 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * This class defines a connection to an api and also gets data from that endpoint.
+ * This class does not have a constructor and is only instantiated using its factory class ConnectionManager
+ *
+ * @author Adwait Bauskar
+ */
 public class Connection {
     private static Logger LOGGER = Logger.getLogger(Connection.class.getName());
 

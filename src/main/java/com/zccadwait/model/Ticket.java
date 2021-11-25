@@ -6,8 +6,16 @@ import com.google.gson.GsonBuilder;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Model object to track a ticket.
+ *
+ * @author Adwait Bauskar
+ */
 public class Ticket{
 
+    /**
+     * This wrapper is introduced as the API returns a nested object.
+     */
     private class TicketWrapper{
         Ticket ticket;
 

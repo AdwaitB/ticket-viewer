@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import java.util.Date;
 import java.util.List;
 
-class Ticket{
+public class Ticket{
 
     private class TicketWrapper{
         Ticket ticket;

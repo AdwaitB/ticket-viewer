@@ -3,8 +3,11 @@ package com.zccadwait.console;
 import com.zccadwait.connection.Connection;
 import com.zccadwait.connection.ConnectionManager;
 import com.zccadwait.credentials.EndpointReader;
+import com.zccadwait.model.Ticket;
+import com.zccadwait.model.TicketList;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,6 +34,9 @@ public class Console {
         command = new Command("get-single", "Get a single ticket given an id", "get-single <ticket-id>");
         commandsMap.put(command.getCommand(), command);
 
+        command = new Command("help", "Get the list of all valid commands", "help");
+        commandsMap.put(command.getCommand(), command);
+
         command = new Command("quit", "Quit the console", "quit");
         commandsMap.put(command.getCommand(), command);
     }
@@ -40,24 +46,69 @@ public class Console {
 
         LOGGER.info("Starting console.");
         System.out.println("Welcome to Adwait's Zendesk Ticket Reader.");
+        printHelp();
         runConsole();
         System.out.println("Thanks for using Adwait's Zendesk Ticket Reader.");
     }
 
-    private static String readDefaultEndpoint(){
+    private static String readDefaultEndpoint(String suffix){
         EndpointReader endpointReader = new EndpointReader(CREDENTIALS_HELPER_FILE);
-        Connection connection = ConnectionManager.getConnection(endpointReader.getUrl());
+        Connection connection = ConnectionManager.getConnection(endpointReader.getUrl() + suffix);
         return connection.executeGet(endpointReader.getUsername(), endpointReader.getPassword());
     }
 
     private static void runConsole(){
-        String command = "help";
+        String command;
 
         Scanner scanner = new Scanner(System.in);
 
-        while(!"quit".equals(command)){
-            System.out.println(command);
+        while(true){
+            System.out.print(" > ");
             command = scanner.nextLine();
+
+            String[] args = command.split(" ", 0);
+            if(args.length != 0){
+                if("quit".equals(args[0]))
+                    break;
+                else if("get-all".equals(args[0])){
+                    String ret = readDefaultEndpoint("");
+                    TicketList ticketList = TicketList.parseTicketList(ret);
+                    System.out.println("Received " + ticketList.getCount() + " tickets.");
+                }
+                else if("get-single".equals(args[0])){
+                    if(args.length != 2){
+                        System.out.println("More than 2 arguments passed. Please pass single id.");
+                        continue;
+                    }
+
+                    int id;
+
+                    try{
+                        id = Integer.parseInt(args[1]);
+                    } catch (Exception e){
+                        System.out.println("2nd arguement passed to get-single is not an integer.");
+                        continue;
+                    }
+
+                    String ret = readDefaultEndpoint("/" + id);
+
+                    if(ret == null){
+                        System.out.println("The ticket with the given id " + id + " does not exist.");
+                        continue;
+                    }
+
+                    Ticket ticket = Ticket.parseTicket(ret);
+
+                    if(ticket == null){
+                        System.out.println("The ticket with the given id " + id + " does not exist.");
+                        continue;
+                    }
+
+                    System.out.println(ticket.getDescription());
+                }
+                else if("help".equals(args[0]))
+                    printHelp();
+            }
         }
     }
 

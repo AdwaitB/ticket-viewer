@@ -1,6 +1,7 @@
 package com.zccadwait.console;
 
 import com.zccadwait.connection.Connection;
+import com.zccadwait.credentials.EndpointReader;
 
 import java.util.HashMap;
 import java.util.Scanner;
@@ -15,6 +16,8 @@ public class Console {
     private static final Integer rowSize = 85;
     private static final String formatString = "| %10s | %40s | %25s |";
     private static final String divider = "-".repeat(rowSize);
+
+    private static final String CREDENTIALS_HELPER_FILE = "src/main/resources/credentials.properties";
 
     static {
         commandsMap = new HashMap<>();
@@ -38,11 +41,16 @@ public class Console {
         System.out.println("Welcome to Adwait's Zendesk Ticket Reader.");
         printHelp();
 
+        EndpointReader endpointReader = readDefaultEndpoint();
         // runConsole();
 
-        Connection connection = new Connection("https://google.com");
-        System.out.println(connection.executeGet(null, null));
+        Connection connection = new Connection(endpointReader.getUrl());
+        System.out.println(connection.executeGet(endpointReader.getUsername(), endpointReader.getPassword()));
         System.out.println("Thanks for using Adwait's Zendesk Ticket Reader.");
+    }
+
+    private static EndpointReader readDefaultEndpoint(){
+        return new EndpointReader(CREDENTIALS_HELPER_FILE);
     }
 
     private static void runConsole(){

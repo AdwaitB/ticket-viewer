@@ -18,7 +18,7 @@ public class Connection {
 
     private URL url;
 
-    public Connection(String httpsURL){
+    Connection(String httpsURL){
         try {
             this.url = new URL(httpsURL);
         } catch (Exception e) {

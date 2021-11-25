@@ -1,6 +1,7 @@
 package com.zccadwait.console;
 
 import com.zccadwait.connection.Connection;
+import com.zccadwait.connection.ConnectionManager;
 import com.zccadwait.credentials.EndpointReader;
 
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class Console {
 
     private static String readDefaultEndpoint(){
         EndpointReader endpointReader = new EndpointReader(CREDENTIALS_HELPER_FILE);
-        Connection connection = new Connection(endpointReader.getUrl());
+        Connection connection = ConnectionManager.getConnection(endpointReader.getUrl());
         return connection.executeGet(endpointReader.getUsername(), endpointReader.getPassword());
     }
 

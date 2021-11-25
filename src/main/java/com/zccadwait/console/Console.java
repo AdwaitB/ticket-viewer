@@ -1,5 +1,7 @@
 package com.zccadwait.console;
 
+import com.zccadwait.connection.Connection;
+
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.logging.Level;
@@ -36,8 +38,10 @@ public class Console {
         System.out.println("Welcome to Adwait's Zendesk Ticket Reader.");
         printHelp();
 
-        runConsole();
+        // runConsole();
 
+        Connection connection = new Connection("https://google.com");
+        System.out.println(connection.executeGet(null, null));
         System.out.println("Thanks for using Adwait's Zendesk Ticket Reader.");
     }
 

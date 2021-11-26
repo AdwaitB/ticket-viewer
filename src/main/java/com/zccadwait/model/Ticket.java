@@ -3,8 +3,15 @@ package com.zccadwait.model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * Model object to track a ticket.
@@ -12,11 +19,14 @@ import java.util.List;
  * @author Adwait Bauskar
  */
 public class Ticket{
+    private static final Logger LOGGER = Logger.getLogger(Ticket.class.getName());
+
+    private static final DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
 
     /**
      * This wrapper is introduced as the API returns a nested object.
      */
-    private class TicketWrapper{
+    private static class TicketWrapper{
         Ticket ticket;
 
         public Ticket getTicket() {
@@ -33,6 +43,29 @@ public class Ticket{
 
     public static Ticket parseTicket(String ticket){
         return Ticket.gson.fromJson(ticket, TicketWrapper.class).getTicket();
+    }
+
+    public String getEntry(String format){
+        return String.format(format, id, dateFormat.format(created_at), status, subject);
+    }
+
+    private long getTicketAge(){
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+
+        try {
+            Date firstDate = sdf.parse("06/24/2017");
+            long diffInMillies = Math.abs(firstDate.getTime() - created_at.getTime());
+            return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        } catch (ParseException e) {
+            LOGGER.severe(e.getMessage());
+            LOGGER.severe(Arrays.toString(e.getStackTrace()));
+        }
+
+        return 0;
+    }
+
+    public String getVerboseEntry(String headerFormat){
+        return getEntry(headerFormat);
     }
 
     private String url;

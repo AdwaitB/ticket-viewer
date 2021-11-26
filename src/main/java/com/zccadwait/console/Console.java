@@ -6,10 +6,14 @@ import com.zccadwait.credentials.EndpointReader;
 import com.zccadwait.model.Ticket;
 import com.zccadwait.model.TicketList;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static java.lang.Math.min;
 
 /**
  * This class is the main entry point for the console.
@@ -21,9 +25,11 @@ public class Console {
 
     private static final HashMap<String, Command> commandsMap;
 
-    private static final Integer ROW_SIZE = 85;
-    private static final String FORMAT_STRING = "| %10s | %40s | %25s |";
-    private static final String DIVIDER = "-".repeat(ROW_SIZE);
+    private static final Integer HELP_ROW_SIZE = 85;
+    private static final String HELP_FORMAT_STRING = "| %10s | %40s | %25s |";
+    private static final Integer TICKET_ROW_SIZE = 85;
+    private static final String TICKET_LIST_FORMAT_STRING = "| %4s | %11s | %7s | %50s |";
+    private static final Integer TICKET_MAX_VIEW_COUNT = 25;
 
     private static final String CREDENTIALS_HELPER_FILE = "src/main/resources/credentials.properties";
 
@@ -77,7 +83,7 @@ public class Console {
                 else if("get-all".equals(args[0])){
                     String ret = readDefaultEndpoint("");
                     TicketList ticketList = TicketList.parseTicketList(ret);
-                    System.out.println("Received " + ticketList.getCount() + " tickets.");
+                    runList(ticketList);
                 }
                 else if("get-single".equals(args[0])){
                     if(args.length != 2){
@@ -108,21 +114,40 @@ public class Console {
                         continue;
                     }
 
-                    System.out.println(ticket.getDescription());
+                    printEntries(List.of(ticket), 0, 1);
                 }
                 else if("help".equals(args[0]))
                     printHelp();
+                else {
+                    System.out.print("Incorrect command received. ");
+                    printHelp();
+                }
             }
         }
     }
 
+    private static void runList(TicketList ticketList){
+        System.out.println("Retrieved " + ticketList.getCount() + " tickets.");
+        int pages = ticketList.getCount()/TICKET_MAX_VIEW_COUNT;
+        printEntries(ticketList.getTickets(), 0, ticketList.getCount());
+    }
+
+    private static void printEntries(List<Ticket> tickets, int start, int end){
+        System.out.println("-".repeat(TICKET_ROW_SIZE));
+        System.out.printf(TICKET_LIST_FORMAT_STRING + "\n", "ID", "Created On", "Status", "Subject");
+        System.out.println("-".repeat(TICKET_ROW_SIZE));
+        for(int i = start; i < min(end, tickets.size()); i++)
+            System.out.println(tickets.get(i).getEntry(TICKET_LIST_FORMAT_STRING));
+        System.out.println("-".repeat(TICKET_ROW_SIZE));
+    }
+
     private static void printHelp(){
         System.out.println("Available Commands.");
-        System.out.println(DIVIDER);
-        System.out.printf((FORMAT_STRING) + "%n", "Command", "Description", "Usage");
-        System.out.println(DIVIDER);
+        System.out.println("-".repeat(HELP_ROW_SIZE));
+        System.out.printf((HELP_FORMAT_STRING) + "%n", "Command", "Description", "Usage");
+        System.out.println("-".repeat(HELP_ROW_SIZE));
         for(Command supportedCommand : commandsMap.values())
-            System.out.println(supportedCommand.getHelpDoc(FORMAT_STRING));
-        System.out.println(DIVIDER);
+            System.out.println(supportedCommand.getHelpDoc(HELP_FORMAT_STRING));
+        System.out.println("-".repeat(HELP_ROW_SIZE));
     }
 }

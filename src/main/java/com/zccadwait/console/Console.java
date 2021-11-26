@@ -6,7 +6,6 @@ import com.zccadwait.credentials.EndpointReader;
 import com.zccadwait.model.Ticket;
 import com.zccadwait.model.TicketList;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -69,7 +68,6 @@ public class Console {
 
     private static void runConsole(){
         String command;
-
         Scanner scanner = new Scanner(System.in);
 
         while(true){
@@ -83,7 +81,7 @@ public class Console {
                 else if("get-all".equals(args[0])){
                     String ret = readDefaultEndpoint("");
                     TicketList ticketList = TicketList.parseTicketList(ret);
-                    runList(ticketList);
+                    runSubconsoleForList(ticketList);
                 }
                 else if("get-single".equals(args[0])){
                     if(args.length != 2){
@@ -126,10 +124,29 @@ public class Console {
         }
     }
 
-    private static void runList(TicketList ticketList){
+    private static void runSubconsoleForList(TicketList ticketList){
         System.out.println("Retrieved " + ticketList.getCount() + " tickets.");
         int pages = ticketList.getCount()/TICKET_MAX_VIEW_COUNT;
-        printEntries(ticketList.getTickets(), 0, ticketList.getCount());
+
+        if(pages > 1)
+            System.out.println("Displaying result in " + pages + " pages.");
+
+        String command;
+        Scanner scanner = new Scanner(System.in);
+
+        for(int i = 0; i < pages; i++) {
+            System.out.println("Page " + (i+1));
+            printEntries(ticketList.getTickets(), i*TICKET_MAX_VIEW_COUNT,
+                    min((i+1)*TICKET_MAX_VIEW_COUNT, ticketList.getCount()));
+            System.out.println("Press q to quit and any other to continue ...");
+
+            if(i == pages-1)
+                break;
+
+            command = scanner.nextLine();
+            if("q".equals(command))
+                break;
+        }
     }
 
     private static void printEntries(List<Ticket> tickets, int start, int end){
@@ -142,7 +159,7 @@ public class Console {
     }
 
     private static void printHelp(){
-        System.out.println("Available Commands.");
+        System.out.println("Available Commands:");
         System.out.println("-".repeat(HELP_ROW_SIZE));
         System.out.printf((HELP_FORMAT_STRING) + "%n", "Command", "Description", "Usage");
         System.out.println("-".repeat(HELP_ROW_SIZE));

@@ -15,6 +15,9 @@ public class TicketList {
     private static final Gson gson = builder.create();
 
     public static TicketList parseTicketList(String ticketList){
+        if(ticketList == null)
+            return null;
+
         return TicketList.gson.fromJson(ticketList, TicketList.class);
     }
 

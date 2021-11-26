@@ -6,12 +6,13 @@ import com.zccadwait.credentials.EndpointReader;
 import com.zccadwait.model.Ticket;
 import com.zccadwait.model.TicketList;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.zccadwait.console.ConsolePrintUtil.printEntries;
+import static com.zccadwait.console.ConsolePrintUtil.printHelp;
 import static java.lang.Math.min;
 
 /**
@@ -22,33 +23,17 @@ import static java.lang.Math.min;
 public class Console {
     private static final Logger LOGGER = Logger.getLogger(Console.class.getName());
 
-    private static final HashMap<String, Command> commandsMap;
+    static{
+        LOGGER.setLevel(Level.SEVERE);
+    }
 
-    private static final Integer HELP_ROW_SIZE = 85;
-    private static final String HELP_FORMAT_STRING = "| %10s | %40s | %25s |";
-    private static final Integer TICKET_ROW_SIZE = 85;
-    private static final String TICKET_LIST_FORMAT_STRING = "| %4s | %11s | %7s | %50s |";
     private static final Integer TICKET_MAX_VIEW_COUNT = 25;
 
     private static final String CREDENTIALS_HELPER_FILE = "src/main/resources/credentials.properties";
 
-    static {
-        commandsMap = new HashMap<>();
+    private static final String PROMPT = " > ";
+    private static final String SUBSTITUTE_PROMPT = " >> ";
 
-        Command command;
-
-        command = new Command("get-all", "Get all tickets", "get-all");
-        commandsMap.put(command.getCommand(), command);
-
-        command = new Command("get-single", "Get a single ticket given an id", "get-single <ticket-id>");
-        commandsMap.put(command.getCommand(), command);
-
-        command = new Command("help", "Get the list of all valid commands", "help");
-        commandsMap.put(command.getCommand(), command);
-
-        command = new Command("quit", "Quit the console", "quit");
-        commandsMap.put(command.getCommand(), command);
-    }
 
     public static void main(String[] args){
         LOGGER.setLevel(Level.SEVERE);
@@ -66,12 +51,15 @@ public class Console {
         return connection.executeGet(endpointReader.getUsername(), endpointReader.getPassword());
     }
 
+    /**
+     * Runs the main console for tracking the commands.
+     */
     private static void runConsole(){
         String command;
         Scanner scanner = new Scanner(System.in);
 
         while(true){
-            System.out.print(" > ");
+            System.out.print(PROMPT);
             command = scanner.nextLine();
 
             String[] args = command.split(" ", 0);
@@ -81,7 +69,13 @@ public class Console {
                 else if("get-all".equals(args[0])){
                     String ret = readDefaultEndpoint("");
                     TicketList ticketList = TicketList.parseTicketList(ret);
-                    runSubconsoleForList(ticketList);
+
+                    if((ret == null) || (ticketList == null)){
+                        System.out.println("The server seems to be down. Please try again after sometime.");
+                        continue;
+                    }
+
+                    runSubstituteConsoleForList(ticketList);
                 }
                 else if("get-single".equals(args[0])){
                     if(args.length != 2){
@@ -95,7 +89,8 @@ public class Console {
                         Ticket ticket = Ticket.parseTicket(ret);
 
                         if((ret == null) || (ticket == null)){
-                            System.out.println("The ticket with the given id " + id + " does not exist.");
+                            System.out.println("Either the server is down or the ticket with the given id " + id + " does not exist.");
+                            System.out.println("Please try again after sometime.");
                             continue;
                         }
 
@@ -114,9 +109,16 @@ public class Console {
         }
     }
 
-    private static void runSubconsoleForList(TicketList ticketList){
+    /**
+     * Runs the substitute console for paging in between the large list.
+     * Displays TICKET_MAX_VIEW_COUNT number of tickets per page.
+     *
+     * @param ticketList List of tickets to iterate through.
+     */
+    private static void runSubstituteConsoleForList(TicketList ticketList){
         System.out.println("Retrieved " + ticketList.getCount() + " tickets.");
         int pages = ticketList.getCount()/TICKET_MAX_VIEW_COUNT;
+        if(ticketList.getCount()%TICKET_MAX_VIEW_COUNT != 0) pages++;
 
         if(pages > 1)
             System.out.println("Displaying result in " + pages + " pages.");
@@ -128,33 +130,14 @@ public class Console {
             System.out.println("Page " + (i+1));
             printEntries(ticketList.getTickets(), i*TICKET_MAX_VIEW_COUNT,
                     min((i+1)*TICKET_MAX_VIEW_COUNT, ticketList.getCount()));
-            System.out.println("Press q to quit and any other to continue ...");
-
             if(i == pages-1)
                 break;
 
+            System.out.println("Press q to quit and any other to continue ...");
+            System.out.print(SUBSTITUTE_PROMPT);
             command = scanner.nextLine();
             if("q".equals(command))
                 break;
         }
-    }
-
-    private static void printEntries(List<Ticket> tickets, int start, int end){
-        System.out.println("-".repeat(TICKET_ROW_SIZE));
-        System.out.printf(TICKET_LIST_FORMAT_STRING + "\n", "ID", "Created On", "Status", "Subject");
-        System.out.println("-".repeat(TICKET_ROW_SIZE));
-        for(int i = start; i < min(end, tickets.size()); i++)
-            System.out.println(tickets.get(i).getEntry(TICKET_LIST_FORMAT_STRING));
-        System.out.println("-".repeat(TICKET_ROW_SIZE));
-    }
-
-    private static void printHelp(){
-        System.out.println("Available Commands:");
-        System.out.println("-".repeat(HELP_ROW_SIZE));
-        System.out.printf((HELP_FORMAT_STRING) + "%n", "Command", "Description", "Usage");
-        System.out.println("-".repeat(HELP_ROW_SIZE));
-        for(Command supportedCommand : commandsMap.values())
-            System.out.println(supportedCommand.getHelpDoc(HELP_FORMAT_STRING));
-        System.out.println("-".repeat(HELP_ROW_SIZE));
     }
 }

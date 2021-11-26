@@ -24,6 +24,11 @@ public class Connection {
 
     private URL url;
 
+    /**
+     * Create a URL object from a given https url.
+     *
+     * @param httpsURL URL to connect to
+     */
     Connection(String httpsURL){
         try {
             this.url = new URL(httpsURL);
@@ -33,6 +38,13 @@ public class Connection {
         }
     }
 
+    /**
+     * Execute a get request given the url. Uses Basic Authorization.
+     *
+     * @param userName username used for authorization
+     * @param password password used for authorization
+     * @return String of response if the get receives 200. null otherwise.
+     */
     public String executeGet(String userName, String password) {
         try {
             if(url == null)
@@ -51,7 +63,8 @@ public class Connection {
                 String authEncoded = Base64.getEncoder().encodeToString(authStr.getBytes());
                 connection.setRequestProperty("Authorization", "Basic " + authEncoded);
             }
-            
+
+            // Both unavailable API as well no output returns 404, so there is no use of using seperate if conditions.
             if (connection.getResponseCode() == 200) {
                 LOGGER.info("Received 200 for " + url.toString());
                 Scanner responseReader = new Scanner(connection.getInputStream());

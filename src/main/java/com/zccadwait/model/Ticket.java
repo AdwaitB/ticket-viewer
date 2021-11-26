@@ -42,6 +42,9 @@ public class Ticket{
     private static final Gson gson = builder.create();
 
     public static Ticket parseTicket(String ticket){
+        if(ticket == null)
+            return null;
+
         return Ticket.gson.fromJson(ticket, TicketWrapper.class).getTicket();
     }
 

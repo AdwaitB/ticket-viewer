@@ -89,30 +89,20 @@ public class Console {
                         continue;
                     }
 
-                    int id;
-
                     try{
-                        id = Integer.parseInt(args[1]);
+                        int id = Integer.parseInt(args[1]);
+                        String ret = readDefaultEndpoint("/" + id);
+                        Ticket ticket = Ticket.parseTicket(ret);
+
+                        if((ret == null) || (ticket == null)){
+                            System.out.println("The ticket with the given id " + id + " does not exist.");
+                            continue;
+                        }
+
+                        printEntries(List.of(ticket), 0, 1);
                     } catch (Exception e){
-                        System.out.println("2nd arguement passed to get-single is not an integer.");
-                        continue;
+                        System.out.println("2nd argument passed to get-single is not an integer.");
                     }
-
-                    String ret = readDefaultEndpoint("/" + id);
-
-                    if(ret == null){
-                        System.out.println("The ticket with the given id " + id + " does not exist.");
-                        continue;
-                    }
-
-                    Ticket ticket = Ticket.parseTicket(ret);
-
-                    if(ticket == null){
-                        System.out.println("The ticket with the given id " + id + " does not exist.");
-                        continue;
-                    }
-
-                    printEntries(List.of(ticket), 0, 1);
                 }
                 else if("help".equals(args[0]))
                     printHelp();

@@ -40,6 +40,11 @@ public class ConsolePrintUtil {
         for(int i = start; i < min(end, tickets.size()); i++)
             System.out.println(tickets.get(i).getEntry(TICKET_LIST_FORMAT_STRING));
         System.out.println("-".repeat(TICKET_ROW_SIZE));
+
+        if(tickets.size() == 1){
+            System.out.println("Ticket Description: ");
+            System.out.println(tickets.get(0).getDescription());
+        }
     }
 
     public static void printHelp(){

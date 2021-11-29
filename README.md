@@ -6,7 +6,7 @@
 
 1. Clone this repository. This requires Java JDK to be installed. Check if JAVA_HOME environment variable is set correctly before proceeding.
 2. Now add your tickets api along with username and password to ```src/main/resources/credentials.properties```.
-   1. The first line must contain the API.
+   1. The first line must contain the API that points to the tickets api for your account.
    2. Second line should have the username.
    3. Third line will contain the password.
    4. An example is as follows.

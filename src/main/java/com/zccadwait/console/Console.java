@@ -2,6 +2,7 @@ package com.zccadwait.console;
 
 import com.zccadwait.connection.Connection;
 import com.zccadwait.connection.ConnectionManager;
+import com.zccadwait.connection.Response;
 import com.zccadwait.credentials.EndpointReader;
 import com.zccadwait.model.Ticket;
 import com.zccadwait.model.TicketList;
@@ -45,7 +46,7 @@ public class Console {
         System.out.println("Thanks for using Adwait's Zendesk Ticket Reader.");
     }
 
-    private static String readDefaultEndpoint(String suffix){
+    private static Response readDefaultEndpoint(String suffix){
         EndpointReader endpointReader = new EndpointReader(CREDENTIALS_HELPER_FILE);
         Connection connection = ConnectionManager.getConnection(endpointReader.getUrl() + suffix);
         return connection.executeGet(endpointReader.getUsername(), endpointReader.getPassword());
@@ -67,10 +68,16 @@ public class Console {
                 if("quit".equals(args[0]))
                     break;
                 else if("get-all".equals(args[0])){
-                    String ret = readDefaultEndpoint("");
-                    TicketList ticketList = TicketList.parseTicketList(ret);
+                    Response response = readDefaultEndpoint("");
 
-                    if((ret == null) || (ticketList == null)){
+                    if(response.getResponseCode() == 401){
+                        System.out.println("The server failed to authenticate your credentials.");
+                        continue;
+                    }
+
+                    TicketList ticketList = TicketList.parseTicketList(response.getResponse());
+
+                    if((response.getResponse() == null) || (ticketList == null)){
                         System.out.println("The server seems to be down. Please try again after sometime.");
                         continue;
                     }
@@ -85,10 +92,16 @@ public class Console {
 
                     try{
                         int id = Integer.parseInt(args[1]);
-                        String ret = readDefaultEndpoint("/" + id);
-                        Ticket ticket = Ticket.parseTicket(ret);
+                        Response response = readDefaultEndpoint("/" + id);
 
-                        if((ret == null) || (ticket == null)){
+                        if(response.getResponseCode() == 401){
+                            System.out.println("The server failed to authenticate your credentials.");
+                            continue;
+                        }
+
+                        Ticket ticket = Ticket.parseTicket(response.getResponse());
+
+                        if((response.getResponse() == null) || (ticket == null)){
                             System.out.println("Either the server is down or the ticket with the given id " + id + " does not exist.");
                             System.out.println("Please try again after sometime.");
                             continue;

@@ -45,7 +45,7 @@ public class Connection {
      * @param password password used for authorization
      * @return String of response if the get receives 200. null otherwise.
      */
-    public String executeGet(String userName, String password) {
+    public Response executeGet(String userName, String password) {
         try {
             if(url == null)
                 return null;
@@ -74,11 +74,11 @@ public class Connection {
                     stringBuilder.append(responseReader.nextLine()).append("\n");
 
                 responseReader.close();
-                return stringBuilder.toString();
+                return new Response(connection.getResponseCode(), stringBuilder.toString());
             }
             else {
                 LOGGER.info("URL " + url.toString() + ", did not return 200.");
-                return null;
+                return new Response(connection.getResponseCode(), null);
             }
         } catch (IOException e) {
             LOGGER.severe(e.getMessage());

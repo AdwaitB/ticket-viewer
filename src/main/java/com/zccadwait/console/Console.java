@@ -71,14 +71,15 @@ public class Console {
                     Response response = readDefaultEndpoint("");
 
                     if(response.getResponseCode() == 401){
-                        System.out.println("The server failed to authenticate your credentials.");
+                        System.out.println(ConsoleMessages.ERROR401.getMessage());
                         continue;
                     }
 
                     TicketList ticketList = TicketList.parseTicketList(response.getResponse());
 
                     if((response.getResponse() == null) || (ticketList == null)){
-                        System.out.println("The server seems to be down. Please try again after sometime.");
+                        System.out.println(ConsoleMessages.SERVER_DOWN.getMessage());
+                        System.out.println(ConsoleMessages.TRY_AGAIN.getMessage());
                         continue;
                     }
 
@@ -86,7 +87,7 @@ public class Console {
                 }
                 else if("get-single".equals(args[0])){
                     if(args.length != 2){
-                        System.out.println("More than 2 arguments passed. Please pass single id.");
+                        System.out.printf((ConsoleMessages.GREATER_THAN_N_ARGUMENTS.getMessage()) + "%n", 2);
                         continue;
                     }
 
@@ -95,15 +96,15 @@ public class Console {
                         Response response = readDefaultEndpoint("/" + id);
 
                         if(response.getResponseCode() == 401){
-                            System.out.println("The server failed to authenticate your credentials.");
+                            System.out.println(ConsoleMessages.ERROR401.getMessage());
                             continue;
                         }
 
                         Ticket ticket = Ticket.parseTicket(response.getResponse());
 
                         if((response.getResponse() == null) || (ticket == null)){
-                            System.out.println("Either the server is down or the ticket with the given id " + id + " does not exist.");
-                            System.out.println("Please try again after sometime.");
+                            System.out.printf(ConsoleMessages.SERVER_DOWN_INCORRECT_ID.getMessage() + "\n", id);
+                            System.out.println(ConsoleMessages.TRY_AGAIN.getMessage());
                             continue;
                         }
 
@@ -115,7 +116,7 @@ public class Console {
                 else if("help".equals(args[0]))
                     printHelp();
                 else {
-                    System.out.print("Incorrect command received. ");
+                    System.out.print(ConsoleMessages.INCORRECT_COMMAND.getMessage());
                     printHelp();
                 }
             }
